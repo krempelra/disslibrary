@@ -101,7 +101,7 @@ public class InCoocOutMultiExport extends InCooccOut {
 		int skip =0;
 		if(headline)
 			skip =1;
-		try {
+
 			//List<Object[]> res = new ArrayList<Object[]>();
 			
 			if(headline){
@@ -212,19 +212,10 @@ public class InCoocOutMultiExport extends InCooccOut {
 								else
 									Infer =Integer.class;
 							}else Infer= String.class;
-							
-							if(Typeinfer[i] != null && Infer != Typeinfer[i] ){
-								String msg = "Problems Infering Type from Node File"+ Infer.toString() +" VS " +Typeinfer[i].toString()+ " at Line "+ i+" Whith Value "+ Typeinfer[i];
-								System.out.println(msg);
-								//System.out.println(label1+"-"+label2+"-"+label1 +"\n");
-							
-								Description.append(msg);
-								//localDescription.append(label1+"-"+label2+"-"+label1 +"\n");
-								//Description.append(localDescription);
-							
-								ReportWriter.getInstance().appendTechEvent(msg);
-							}
-							Typeinfer[i] = Infer;
+							//I just One thing is String everything in the column becomes String.
+
+                            if((Typeinfer[i] == null || (Typeinfer[i].equals(Float.class) || Typeinfer[i].equals(Integer.class)) && Infer.equals(String.class)) )
+                                Typeinfer[i]=Infer;
 						}
 						count ++;
 					}
@@ -409,7 +400,7 @@ public class InCoocOutMultiExport extends InCooccOut {
 					  //Close the output stream
 					  description.close();
 				}catch (Exception e){//Catch exception if any
-					  System.err.println("Error: " + e.getMessage());
+					  System.err.println("Error: " + e.getClass() +" " + e.getMessage());
 				}
 				
 				try{
@@ -422,16 +413,13 @@ public class InCoocOutMultiExport extends InCooccOut {
 					  description.close();
 				}catch (Exception e){
 					//Catch exception if any
-					System.err.println("Error: " + e.getMessage());
+					System.err.println("Error: "+ e.getClass() +" " + e.getMessage());
 				}		
 				
 				System.out.println("---------------------------------------------------------------" );
 				ReportWriter.getInstance().clear();
 				return;
-			}catch (Exception e){
-				//Catch exception if any
-				System.err.println("Error: " + e.getMessage());
-			}		
+
 			
 			
 			
@@ -511,6 +499,8 @@ public class InCoocOutMultiExport extends InCooccOut {
 			node[1]=new String(string);
 			node[2]=new Integer(marker);
 			List<Object> listi = nod.get(string);
+			if(listi== null)
+			    continue;
 			for (int i = 0; i < listi.size(); i++) {
 				node[3+i]=listi.get(i);
 			}

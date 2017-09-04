@@ -247,7 +247,7 @@ public class NetStandardConverter {
 	
 	
 	//Producing a Running Number form the IDS
-	//This Esspecialy Important if the Interpreter needs Ids Whithout Holes
+	//This Esspecialy Important if the Interpreter needs Ids With out holes
 	private void produceRunnungNumber() {
 		translate = new HashMap<String,Long>();
 		long runningnumber =0; 
